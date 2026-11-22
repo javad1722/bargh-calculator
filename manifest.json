@@ -1,10 +1,22 @@
-
 {
   "name": "ماشین حساب برق",
   "short_name": "محاسبه آمپر",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#1565c0",
-  "description": "ماشین حساب محاسبات برق"
+  "description": "ماشین حساب محاسبات برق",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }
