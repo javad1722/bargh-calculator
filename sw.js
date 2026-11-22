@@ -1,9 +1,11 @@
-
 const CACHE_NAME = "bargh-calculator-v1";
+
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
-  "./manifest.json"
+  "./manifest.json",
+  "./icon-192.png",
+  "./icon-512.png"
 ];
 
 self.addEventListener("install", event => {
