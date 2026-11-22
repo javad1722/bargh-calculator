@@ -1,0 +1,10 @@
+
+{
+  "name": "ماشین حساب برق",
+  "short_name": "محاسبه آمپر",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1565c0",
+  "description": "ماشین حساب محاسبات برق"
+}
