@@ -1,13 +1,18 @@
+
 <!doctype html>
 <html lang="fa" dir="rtl">
 <head>
-  <link rel="manifest" href="./manifest.json">
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <link rel="manifest" href="./manifest.json">
-<meta name="theme-color" content="#123b5d"><title>محاسبه‌گر برق</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#123b5d">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>محاسبه‌گر برق</title>
 <style>
 :root{--bg:#f2f5f8;--card:#fff;--ink:#172635;--muted:#687887;--blue:#145b87;--line:#dce4eb;--soft:#eaf3f9;--orange:#a85a00}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Tahoma,"Noto Naskh Arabic",sans-serif;font-size:15px}.top{background:linear-gradient(135deg,#123b5d,#1673a4);color:#fff;padding:22px 18px 18px;border-radius:0 0 22px 22px}.top h1{font-size:22px;margin:0 0 6px}.top p{margin:0;color:#d9eaf5;font-size:13px}.wrap{max-width:620px;margin:auto;padding:14px}.tabs{display:flex;gap:7px;margin:0 0 14px;overflow:auto}.tab{border:1px solid var(--line);background:#fff;color:var(--blue);border-radius:12px;padding:11px 13px;white-space:nowrap;font-weight:bold}.tab.active{background:var(--blue);color:white;border-color:var(--blue)}.card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:16px;margin-bottom:13px;box-shadow:0 3px 12px #20384b0a}.card h2{font-size:17px;margin:0 0 14px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.field{margin-bottom:12px}.field label{display:block;color:var(--muted);font-size:13px;margin-bottom:6px}input,select{width:100%;height:44px;border:1px solid #cbd7e1;border-radius:10px;padding:0 10px;background:#fff;color:var(--ink);font:inherit;direction:rtl}input:focus,select:focus{outline:2px solid #9ac7e2;border-color:var(--blue)}.result{background:var(--soft);border-radius:13px;padding:14px;text-align:center;margin-top:12px}.result small{color:var(--muted);display:block}.result strong{font-size:26px;color:var(--blue);display:block;margin:5px}.unit{font-size:14px;color:var(--blue)}button.action{width:100%;height:45px;border:0;border-radius:11px;background:var(--blue);color:#fff;font:inherit;font-weight:bold;margin-top:5px}.hint{font-size:12px;line-height:1.9;color:var(--muted);margin:10px 0 0}.warn{background:#fff4e5;border:1px solid #f0d2a8;color:#75420a;padding:12px;border-radius:12px;font-size:12px;line-height:1.9;margin-bottom:13px}.hidden{display:none}.row{display:flex;align-items:center;justify-content:space-between;gap:8px}.footer{text-align:center;color:#8996a1;font-size:11px;padding:8px 0 24px}@media(max-width:390px){.grid{grid-template-columns:1fr}.tabs{gap:5px}.tab{padding:10px;font-size:13px}}
-</style></head>
+</style>
+</head>
 <body>
 <header class="top"><h1>⚡ محاسبه‌گر برق</h1><p>تبدیل وات، ولت و آمپر و محاسبات اولیه سیم برق · فارسی و آفلاین</p></header>
 <main class="wrap">
@@ -38,10 +43,21 @@
 <script>
 const $=id=>document.getElementById(id);const fa=n=>Number(n).toLocaleString('fa-IR',{maximumFractionDigits:2});
 function num(id){return Number($(id).value)}function validPos(...v){return v.every(x=>Number.isFinite(x)&&x>0)}
-function calcConvert(){let dir=$('direction').value,k=$('kind').value,x=num('mainVal'),v=num('voltage'),pf=num('pf'),r=num('resistance');$('mainLabel').textContent=dir==='wa'?'توان (وات)':dir==='aw'?'جریان (آمپر)':'ولتاژ (ولت)';$('voltageWrap').classList.toggle('hidden',dir==='va');$('resistanceWrap').classList.toggle('hidden',dir!=='va');$('pfWrap').classList.toggle('hidden',k==='dc'||dir==='va');if(dir==='va'){if(!validPos(x,r)){$('convResult').textContent='—';return}let current=x/r;$('convResult').textContent=fa(current);$('convUnit').textContent='آمپر';return}if(!validPos(x,v)||(k!=='dc'&&(!Number.isFinite(pf)||pf<=0||pf>1))){$('convResult').textContent='—';return}let factor=k==='three'?Math.sqrt(3)*v*(k==='dc'?1:pf):v*(k==='dc'?1:pf);let result=dir==='wa'?x/factor:x*factor;$('convResult').textContent=fa(result);$('convUnit').textContent=dir==='wa'?'آمپر':'وات'}
-// Approximate conservative reference values (A), not a code-compliant cable rating.
+function calcConvert(){let dir=$('direction').value,k=$('kind').value,x=num('mainVal'),v=num('voltage'),pf=num('pf'),r=num('resistance');$('mainLabel').textContent=dir==='wa'?'توان (وات)':dir==='aw'?'جریان (آمپر)':'ولتاژ (ولت)';$('voltageWrap').classList.toggle('hidden',dir==='va');$('resistanceWrap').classList.toggle('hidden',dir!=='va');$('pfWrap').classList.toggle('hidden',k==='dc'||dir==='va');if(dir==='va'){if(!validPos(x,r)){$('convResult').textContent='—';return}let current=x/r;$('convResult').textContent=fa(current);$('convUnit').textContent='آمپر';return}if(!validPos(x,v)||(k!=='dc'&&(!Number.isFinite(pf)||pf<=0||pf>1))){$('convResult').textContent='—';return}let factor=k==='three'?Math.sqrt(3)*v*pf:v*(k==='dc'?1:pf);let result=dir==='wa'?x/factor:x*factor;$('convResult').textContent=fa(result);$('convUnit').textContent=dir==='wa'?'آمپر':'وات'}
 const amp={cu:{open:[11,15,21,28,36,50,67,89,110,134],pipe:[9,13,18,24,31,42,56,73,89,108]},al:{open:[8,11,16,21,27,37,49,65,81,98],pipe:[7,9,14,18,23,31,42,55,67,81]}};const sizes=[1,1.5,2.5,4,6,10,16,25,35,50];
 function calcWire(){let m=$('metal').value,ins=$('install').value,s=Number($('section').value),i=sizes.indexOf(s),a=amp[m][ins][i],k=$('wireKind').value,pf=num('wirePf'),v=k==='three'?380:220,L=num('wireLength');if(k!=='dc'&&(!Number.isFinite(pf)||pf<=0||pf>1)){ $('wirePower').textContent='—';$('wireDrop').textContent='—';$('wireDropPct').textContent='—';return}let power=k==='three'?Math.sqrt(3)*v*a*pf:k==='dc'?v*a:v*a*pf;$('ampacity').textContent=fa(a);$('wirePower').textContent=fa(power);if(!validPos(L)){ $('wireDrop').textContent='—';$('wireDropPct').textContent='—';return}let rho=m==='cu'?0.0175:0.0282;let dv=(k==='three'?Math.sqrt(3):2)*L*a*rho/s;let pct=dv/v*100;$('wireDrop').textContent=fa(dv);$('wireDropPct').textContent=fa(pct)+'٪'}
 function calcDrop(){let m=$('dropMetal').value,k=$('dropKind').value,L=num('length'),s=num('dropSection'),I=num('current'),V=num('baseVoltage');if(!validPos(L,s,I,V)){$('dropV').textContent='—';$('dropPct').textContent='—';return}let rho=m==='cu'?0.0175:0.0282;let dv=(k==='three'?Math.sqrt(3):2)*L*I*rho/s;let pct=dv/V*100;$('dropV').textContent=fa(dv);$('dropPct').textContent=fa(pct)+'٪'}
 ['direction','kind','mainVal','voltage','pf','resistance'].forEach(id=>$(id).addEventListener('input',calcConvert));['metal','install','section','wireKind','wirePf','wireLength'].forEach(id=>$(id).addEventListener('input',calcWire));['dropMetal','dropKind','length','dropSection','current','baseVoltage'].forEach(id=>$(id).addEventListener('input',calcDrop));document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.page').forEach(x=>x.classList.toggle('hidden',x.id!==b.dataset.page))}));calcConvert();calcWire();calcDrop();
-</script></body></html>
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js")
+      .then(() => console.log("برنامه آماده نصب و استفاده آفلاین است"))
+      .catch(error => console.log("خطا در ثبت برنامه:", error));
+  });
+}
+</script>
+</body>
+</html>
+
